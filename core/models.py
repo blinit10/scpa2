@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.utils.safestring import mark_safe
 
 SOLO_TEXTO_REGEX = RegexValidator(r'^[a-zA-Z]+$', 'Solo se admiten letras')
 # Create your models here.
@@ -21,6 +22,11 @@ class Ficha(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    def mostrar_foto(self):
+        return mark_safe('<img src="'+self.foto.url+'"  width="150" height="150" >')
+    mostrar_foto.short_description = 'Vista previa'
+    mostrar_foto.allow_tags = True
 
 class Visitante(models.Model):
     nombre = models.CharField(max_length=255, validators=[SOLO_TEXTO_REGEX])
@@ -49,11 +55,16 @@ class Evento(models.Model):
     def __str__(self):
         return self.nombre
 
+    def mostrar_foto(self):
+        return mark_safe('<img src="'+self.foto.url+'"  width="150" height="150" >')
+    mostrar_foto.short_description = 'Vista previa'
+    mostrar_foto.allow_tags = True
+
 class Informacion(models.Model):
     texto = RichTextUploadingField()
 
     def __str__(self):
-        return self.texto[:25]
+        return mark_safe(self.texto[:25])
 
 class Denuncia(models.Model):
     ficha = models.ForeignKey(Ficha, related_name='denuncias', on_delete=models.CASCADE)
