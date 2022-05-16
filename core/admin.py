@@ -14,8 +14,10 @@ class FichaAdmin(admin.ModelAdmin):
         }),
         ('Otros datos', {
             'fields': ('color','foto', 'mostrar_foto', 'sexo', 'esterilizado', 'peso')}),
+        ('QR', {
+            'fields': ('mostrar_qr',)}),
     )
-    readonly_fields = ('mostrar_foto',)
+    readonly_fields = ('mostrar_foto', 'mostrar_qr')
 
 class VisitanteAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'apellido', 'telefono')
