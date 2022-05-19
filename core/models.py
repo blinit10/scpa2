@@ -64,7 +64,7 @@ class Ficha(models.Model):
             })
             qr.make(fit=True)
             imagen = qr.make_image(fill_color="black", back_color="white").convert('RGB')
-            self.qr = "/qr/" + str(self.pk) + '.png'
+            self.qr = "/qr/" + str(Ficha.objects.last().pk + 1) + '.png'
             self.save()
             imagen.save("media/qr/" + str(self.pk) + ".png")
         super(Ficha, self).save()
